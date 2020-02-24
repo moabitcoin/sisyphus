@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+if [ $# -lt 2 ]; then
+    echo "Usage: $(basename $0) framedir video.mp4 [fps] [resolution]"
+    exit 1
+fi
+
+readonly framedir="${1}"
+readonly video="${2}"
+readonly rate="${3:-2}"
+readonly resolution="${4:-320x180}"
+
+ffmpeg -y -loglevel error -r "${rate}" -vsync 0 -f image2 -pattern_type glob -i "${framedir}/*.jpg" -s "${resolution}" -vcodec libx264 "${video}"

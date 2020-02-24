@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+if [ $# -lt 2 ]; then
+    echo "Usage: $(basename $0) in.jpg outdir [WxH]"
+    exit 1
+fi
+
+readonly resolution="${3:-32x32}"
+
+convert "${1}" -crop "${resolution}" +repage +adjoin "${2}/split-%d.jpg"

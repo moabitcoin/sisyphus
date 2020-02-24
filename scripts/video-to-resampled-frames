@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+if [ $# -ne 3 ]; then
+    echo "Usage: $(basename $0) video.mp4 outdir fps"
+    exit 1
+fi
+
+ffmpeg -y -loglevel error -r "${3}" -i "${1}" -vsync 0 -f image2 "${2}/frame-%d.jpg"

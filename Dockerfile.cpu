@@ -1,0 +1,67 @@
+FROM ubuntu:18.04
+
+WORKDIR /usr/src/app
+
+ENV LANG="C.UTF-8" LC_ALL="C.UTF-8" PATH="/opt/venv/bin:$PATH" PIP_NO_CACHE_DIR="false" CFLAGS="-mavx2" CXXFLAGS="-mavx2"
+
+RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y --no-install-recommends \
+    python3 python3-pip python3-venv \
+    wget make g++ ffmpeg python3-dev libblas-dev liblapack-dev swig \
+    cmake yasm zlib1g-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+COPY requirements.txt .
+
+RUN python3 -m venv /opt/venv && \
+    python3 -m pip install pip==19.2.3 pip-tools==4.0.0
+
+# For pytorch and torchvision we need platform specific (cpu vs. gpu) wheels from
+# https://download.pytorch.org/whl/cpu/torch_stable.html
+# To generate hashes run: python3 -m pip hash *.whl
+RUN echo "https://download.pytorch.org/whl/cpu/torch-1.2.0%2Bcpu-cp36-cp36m-manylinux1_x86_64.whl       \
+          --hash=sha256:7b9b943673d3acb446248ba0d6feed6926bf60ce719ace4707a6559c1f57ced7                \
+          \n                                                                                            \
+          https://download.pytorch.org/whl/cpu/torchvision-0.4.0%2Bcpu-cp36-cp36m-manylinux1_x86_64.whl \
+          --hash=sha256:63f342b858b18839fcf3ff8ad857e44a4ff0fcb8cb8e2bdc2f4ed9afa7cec9e0                \
+          \n" >> requirements.txt && cat requirements.txt
+
+RUN python3 -m piptools sync
+
+RUN python3 -c "from torchvision.models import resnet50; resnet50(pretrained=True, progress=False)" && \
+    python3 -c "from torchvision.models.video import r2plus1d_18; r2plus1d_18(pretrained=True, progress=False)"
+
+RUN wget -q https://github.com/libjpeg-turbo/libjpeg-turbo/archive/2.0.3.tar.gz -O libjpeg-turbo.tar.gz && \
+    echo "a69598bf079463b34d45ca7268462a18b6507fdaa62bb1dfd212f02041499b5d libjpeg-turbo.tar.gz" | sha256sum -c && \
+    tar xf libjpeg-turbo.tar.gz && \
+    rm libjpeg-turbo.tar.gz && \
+    cd libjpeg-turbo* && \
+    mkdir build && \
+    cd build && \
+    cmake -DCMAKE_BUILD_TYPE=Release -DREQUIRE_SIMD=On -DCMAKE_INSTALL_PREFIX=/usr/local .. && \
+    make -j $(nproc) && \
+    make install && \
+    ldconfig && \
+    cd ../../ && \
+    rm -rf libjpeg-turbo*
+
+RUN python3 -m pip uninstall -y pillow && \
+    python3 -m pip install --no-binary :all: --compile pillow-simd==6.0.0.post0
+
+RUN wget -q https://github.com/facebookresearch/faiss/archive/v1.5.3.tar.gz -O faiss.tar.gz && \
+    echo "b24d347b0285d01c2ed663ccc7596cd0ea95071f3dd5ebb573ccfc28f15f043b faiss.tar.gz" | sha256sum -c && \
+    tar xf faiss.tar.gz && \
+    rm faiss.tar.gz && \
+    cd faiss* && \
+    ./configure --without-cuda && \
+    make -j $(nproc) && \
+    make -j $(nproc) -C python && \
+    make install && \
+    make -C python install && \
+    cd .. && \
+    rm -rf faiss*
+
+COPY . .
+
+EXPOSE 5000
+ENTRYPOINT ["/usr/src/app/bin/sfi"]
+CMD ["-h"]

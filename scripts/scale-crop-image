@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+set -o errexit
+set -o pipefail
+set -o nounset
+
+if [ $# -lt 2 ]; then
+    echo "Usage: $(basename $0) in.jpg out.jpg [WxH]"
+    exit 1
+fi
+
+readonly resolution="${3:-224x224}"
+
+convert "${1}" -resize "${resolution}^" -gravity Center -extent "${resolution}" "${2}"
