@@ -1,6 +1,6 @@
 <h1 align='center'>:mount_fuji: Sisyphus</h1>
 
-Scene similarity for weak object discovery & classification. Labelling images for building an object classification models is a labor intensive task (a.k.a [rolling a ball uphill](https://en.wikipedia.org/wiki/Sisyphus)). This repository leverages [image similarity](https://www.github.com/facebookresearch/faiss) to generate a weakly labeled dataset which can be cleaned up order of magnitude faster than going through the whole image corpus. The expected speedup is inversely proportional to rarity of the object of interest. We also provide a [blockages/construction]() detection model trained on drive data from Berlin.
+Scene similarity for weak object discovery & classification. Labelling images for building an object classification models is a labor intensive task (a.k.a [rolling a ball uphill](https://en.wikipedia.org/wiki/Sisyphus)). This repository leverages [image similarity](https://www.github.com/facebookresearch/faiss) to generate a weakly labeled dataset which can be cleaned up order of magnitude faster than going through the whole image/video corpus. The expected speedup is inversely proportional to rarity of the object of interest. We also provide a [blockages/construction](https://github.com/moabitcoin/sisyphus/releases/tag/v1.0.0) detection model trained on drive data from [Berlin.](https://hoodmaps.com/berlin-neighborhood-map) and tools contained in this repository.
 
 # Table of Contents
 * [Installation](#computer-installation)
@@ -93,7 +93,7 @@ In our second iteration we work with videos directly; we
 - index the video sequence vector representations for approximate nearest neighbor searches based on L2 distance
 - query the indexed dataset for semantically similar scenarios
 
-See our companion project for [video summarization](https://gitlab.mobilityservices.io/am/roam/perception/prototypes/video-summarisation). Following the work in [arxiv.org/abs/1502.04681](https://arxiv.org/abs/1502.04681) we train a sequence model based auto-encoder for unsupervised video sequence vectors for indexing.
+See our companion project for [video summarization]https://github.com/moabitcoin/Adversarial-video-summarization-pytorch). Following the work in [arxiv.org/abs/1502.04681](https://arxiv.org/abs/1502.04681) we train a sequence model based auto-encoder for unsupervised video sequence vectors for indexing.
 
 # References
 
