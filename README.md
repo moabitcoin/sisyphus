@@ -93,7 +93,7 @@ In our second iteration we work with videos directly; we
 - index the video sequence vector representations for approximate nearest neighbor searches based on L2 distance
 - query the indexed dataset for semantically similar scenarios
 
-See our companion project for [video summarization]https://github.com/moabitcoin/Adversarial-video-summarization-pytorch). Following the work in [arxiv.org/abs/1502.04681](https://arxiv.org/abs/1502.04681) we train a sequence model based auto-encoder for unsupervised video sequence vectors for indexing.
+See our companion project for [video summarization](https://github.com/moabitcoin/Adversarial-video-summarization-pytorch). Following the work in [arxiv.org/abs/1502.04681](https://arxiv.org/abs/1502.04681) we train a sequence model based auto-encoder for unsupervised video sequence vectors for indexing & search.
 
 ## :bookmark: References
 
