@@ -5,13 +5,13 @@ Scene similarity for weak object discovery & classification. Labelling images fo
 # Table of Contents
 * [Installation](#computer-installation)
 * [Sample usage](#tada-usage)
-  - [Features Extraction](#architectures)
-  - [Building faiss index](#environments)
-  - [Loading faiss index](#environments)
-  - [Querying faiss index](#environments)
-* [Video to keyframes]()
-* [Case study]()
-  - [Road blockages]()
+  - [Features Extraction](#rocket-feature-extraction)
+  - [Building faiss index](#european_post_office-building-index)
+  - [Loading faiss index](#vhs-load-index)
+  - [Querying faiss index](#crystal_ball-query-index)
+* [Video to keyframes](#camera-frames-vs-video_camera-videos)
+* [Case study](#green_book-case-study)
+  - [Road blockages](#construction-blockage-detection)
 
 ## :computer: Installation
 
