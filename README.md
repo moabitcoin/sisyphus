@@ -39,28 +39,28 @@ All tools can be invoked via
     ./bin/sfi <tool> --help
 ```
 
-### Feature extraction
+### :rocket: Feature extraction
 
 Extracts high level feature maps for all image frames from a trained convolutional neural net.
 Saves `.npy` files with the extracted feature maps in parallel to all image frames.
 We recommend running this step on GPUs.
 
 
-### Building index
+### :european_post_office: Building index
 
 Builds an index from the `.npy` feature maps for fast and efficient approximate nearest neighbour queries based on L2 distance. The `quantizer` for the index needs to get trained on a small subset of the feature maps to approximate the dataset's centroids. Depending on the feature map's spatial resolution (pooled vs. unpooled) we build and save multiple indices (one per `depthwise` feature map axis).
 
-### Load index
+### :vhs: Load index
 
 Loads up the index (slow) and keeps it in memory to handle nearest neighbour queries (fast).
 Responds to queries by searching the index, aggregating results, and re-ranking them.
 
-### Query index
+### :crystal_ball: Query index
 
 Sends nearest neighbour requests against the query server and reports results to the user.
 The query and results are based on the `.npy` feature maps.
 
-### Frames vs. videos
+### :camera: Frames vs. :video_camera: videos
 
 The semantic frame index can work with image frames; for videos you should extract key frames first
 
@@ -74,12 +74,12 @@ The semantic frame index query can return key frame images; for inspection and s
 For indexing and querying video sequences directly see our companion project for [video summarization](https://github.com/moabitcoin/Adversarial-video-summarization-pytorch).
 
 
-## Case study
-### Blockage detection
+## :green_book: Case study
+### :construction: Blockage detection
 
 We record tens of thousand hours of drive video data and need to be able to search for semantically similar scenarios. Similarity could mean similar lighting conditions, similar vehicle types, similar traffic volumes, similar objects on the road, and so on.
 
-### Implementation Sketch
+### :musical_score: Implementation Sketch
 
 In our first iteration we
 - re-sample videos and extract their key frames
@@ -95,7 +95,7 @@ In our second iteration we work with videos directly; we
 
 See our companion project for [video summarization]https://github.com/moabitcoin/Adversarial-video-summarization-pytorch). Following the work in [arxiv.org/abs/1502.04681](https://arxiv.org/abs/1502.04681) we train a sequence model based auto-encoder for unsupervised video sequence vectors for indexing.
 
-# References
+## :newspaper: References
 
 - Product Quantizer (PQ) [part 1](http://mccormickml.com/2017/10/13/product-quantizer-tutorial-part-1/), and [part 2](http://mccormickml.com/2017/10/22/product-quantizer-tutorial-part-2/)
 - [Product Quantization for Nearest Neighbor Search](https://hal.inria.fr/file/index/docid/514462/filename/paper_hal.pdf)
