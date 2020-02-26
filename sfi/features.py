@@ -41,12 +41,13 @@ class FeatureExtractor:
 
     @property
     def transform(self):
+
         # ImageNet statistics (because we use pre-trained model)
         mean, std = [0.485, 0.456, 0.406], [0.229, 0.224, 0.225]
 
         transforms = [ToImageMode("RGB")]
-        if self.image_size:
-          transforms.append(Resize(self.image_size))
+        if self.image_size is not None:
+          transforms.append(Resize([self.image_size, self.image_size]))
 
         # We zero pad (PadToMultiple) since resnet5 downsamples x2 five times
 
