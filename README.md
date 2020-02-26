@@ -39,24 +39,24 @@ See the [`Makefile`](./Makefile) for options and more advanced targets.
 
 All tools can be invoked via
 ```
-    ./bin/sfi --help
-    usage: sficmd [-h]  ...
+./bin/sfi --help
+usage: sficmd [-h]  ...
 
-    optional arguments:
-      -h, --help      show this help message and exit
+optional arguments:
+  -h, --help      show this help message and exit
 
-    commands:
+commands:
 
-        save-frames   saves key frames for video
-        stream-index  builds an index in streaming mode
-        save-feature  saves features for frames
-        save-feature3d
-                      saves features for videos
-        query-server  starts up the index query http server
-        query-client  queries the query server for similar features
-        model-train   trains a classifier model
-        model-infer   runs inference with a classifier model
-        model-export  export a classifier model to onnx
+    save-frames   saves key frames for video
+    stream-index  builds an index in streaming mode
+    save-feature  saves features for frames
+    save-feature3d
+                  saves features for videos
+    query-server  starts up the index query http server
+    query-client  queries the query server for similar features
+    model-train   trains a classifier model
+    model-infer   runs inference with a classifier model
+    model-export  export a classifier model to onnx
 ```
 
 ### :rocket: Feature extraction
@@ -64,8 +64,7 @@ All tools can be invoked via
 ```
   ./bin/sfi extract-features --help
 ```
-Extracts high level feature [MAC]() maps for all image frames from a pre-trained convolutional neural net. (ResNet-50 + ILSVRC2012). Saves the features in individual `.npy` files with the extracted feature maps in parallel to all image frames. We recommend running this step on GPUs.
-
+Extracts high level [MAC](https://arxiv.org/pdf/1511.05879.pdf) feature maps for all image frames from a pre-trained convolutional neural net(ResNet-50 + ILSVRC2012). Save the features in individual `.npy` files with the extracted feature maps in parallel to all image frames. We recommend running this step on GPUs.
 
 ### :european_post_office: Building index
 
