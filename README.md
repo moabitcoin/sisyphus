@@ -10,7 +10,7 @@ Scene similarity for weak object discovery & classification. Labelling images fo
   - [Loading faiss index](#vhs-load-index)
   - [Querying faiss index](#crystal_ball-query-index)
 * [Video to keyframes](#camera-frames-vs-video_camera-videos)
-* [Case study: Traffic Blockages](./docs/blockages.md)
+* [Example: Traffic Blockages](./docs/blockages.md)
 
 ## :computer: Installation
 
