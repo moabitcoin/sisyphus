@@ -14,15 +14,16 @@ Scene similarity for weak object discovery & classification. Labelling images fo
 
 ## :computer: Installation
 
-Create a self-contained reproducible development environment
-### CPU
+Create a self-contained reproducible development environment & Get into the development environment
+
+Example for running on CPUs:
 ```
 make install dockerfile=Dockerfile.cpu dockerimage=moabitcoin/sfi-cpu
 make run dockerimage=dockerimage=moabitcoin/sfi-cpu
 ```
 
-Get into the development environment
-### GPU
+
+Example for running on GPUs via [nvidia-docker](https://github.com/NVIDIA/nvidia-docker):
 ```
 make install dockerfile=Dockerfile.gpu dockerimage=moabitcoin/sfi-gpu
 make run dockerimage=dockerimage=moabitcoin/sfi-gpu runtime=nvidia
