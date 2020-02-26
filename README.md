@@ -10,8 +10,7 @@ Scene similarity for weak object discovery & classification. Labelling images fo
   - [Loading faiss index](#vhs-load-index)
   - [Querying faiss index](#crystal_ball-query-index)
 * [Video to keyframes](#camera-frames-vs-video_camera-videos)
-* [Case study](#green_book-case-study)
-  - [Road blockages](#construction-blockage-detection)
+* [Case study: Traffic Blockages](#docs/blockages.md)
 
 ## :computer: Installation
 
@@ -34,16 +33,34 @@ See the [`Makefile`](./Makefile) for options and more advanced targets.
 
 All tools can be invoked via
 ```
-    ./bin/sfi <tool> <args>
     ./bin/sfi --help
-    ./bin/sfi <tool> --help
+    usage: sficmd [-h]  ...
+
+    optional arguments:
+      -h, --help      show this help message and exit
+
+    commands:
+
+        save-frames   saves key frames for video
+        stream-index  builds an index in streaming mode
+        save-feature  saves features for frames
+        save-feature3d
+                      saves features for videos
+        query-server  starts up the index query http server
+        query-client  queries the query server for similar features
+        model-train   trains a classifier model
+        model-infer   runs inference with a classifier model
+        model-export  export a classifier model to onnx
 ```
 
 ### :rocket: Feature extraction
 
-Extracts high level feature maps for all image frames from a trained convolutional neural net.
-Saves `.npy` files with the extracted feature maps in parallel to all image frames.
-We recommend running this step on GPUs.
+```
+  ./bin/sfi save-feature --help
+```
+
+Extracts high level feature maps for all image frames from a trained convolutional neural net. (ResNet-50)
+Saves `.npy` files with the extracted feature maps in parallel to all image frames. We recommend running this step on GPUs.
 
 
 ### :european_post_office: Building index
@@ -72,33 +89,3 @@ The semantic frame index query can return key frame images; for inspection and s
     ./scripts/key-frames-to-video /tmp/result/ nearest.mp4
 ```
 For indexing and querying video sequences directly see our companion project for [video summarization](https://github.com/moabitcoin/Adversarial-video-summarization-pytorch).
-
-
-## :green_book: Case study
-### :construction: Blockage detection
-
-We record tens of thousand hours of drive video data and need to be able to search for semantically similar scenarios. Similarity could mean similar lighting conditions, similar vehicle types, similar traffic volumes, similar objects on the road, and so on.
-
-### :musical_score: Implementation Sketch
-
-In our first iteration we
-- re-sample videos and extract their key frames
-- for all key frames extract a trained convolutional neural net's high level feature maps
-- index the feature maps for approximate nearest neighbor searches based on L2 distance
-- query the indexed dataset for semantically similar scenarios
-
-In our second iteration we work with videos directly; we
-- re-sample videos and extract short sequences
-- for all video sequences we compute a vector representation
-- index the video sequence vector representations for approximate nearest neighbor searches based on L2 distance
-- query the indexed dataset for semantically similar scenarios
-
-See our companion project for [video summarization](https://github.com/moabitcoin/Adversarial-video-summarization-pytorch). Following the work in [arxiv.org/abs/1502.04681](https://arxiv.org/abs/1502.04681) we train a sequence model based auto-encoder for unsupervised video sequence vectors for indexing & search.
-
-## :bookmark: References
-
-- Product Quantizer (PQ) [part 1](http://mccormickml.com/2017/10/13/product-quantizer-tutorial-part-1/), and [part 2](http://mccormickml.com/2017/10/22/product-quantizer-tutorial-part-2/)
-- [Product Quantization for Nearest Neighbor Search](https://hal.inria.fr/file/index/docid/514462/filename/paper_hal.pdf)
-- [Billion-scale similarity search with GPUs](https://arxiv.org/pdf/1702.08734.pdf)
-- [faiss wiki](https://github.com/facebookresearch/faiss/wiki)
-- [Unsupervised Learning of Video Representations using LSTMs](https://arxiv.org/abs/1502.04681)
