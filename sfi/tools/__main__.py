@@ -6,6 +6,7 @@ import sfi.tools.frames
 import sfi.tools.feature
 import sfi.tools.feature3d
 import sfi.tools.stream
+import sfi.tools.index
 import sfi.tools.server
 import sfi.tools.client
 import sfi.tools.train
@@ -18,7 +19,7 @@ subcmd.required = True
 
 Fmt = argparse.ArgumentDefaultsHelpFormatter
 
-frames = subcmd.add_parser("save-frames", help="saves key frames for video", formatter_class=Fmt)
+frames = subcmd.add_parser("extract-frames", help="Extract key frames for video using intra frame similarity", formatter_class=Fmt)
 frames.add_argument("--video", type=Path, required=True, help="file load video from")
 frames.add_argument("--frames", type=Path, required=True, help="directory to save key frames to")
 frames.add_argument("--similarity", type=float, default=0.95, help="similarity key frame threshold")
@@ -27,23 +28,22 @@ frames.add_argument("--image-size", type=int, default=7 * 32, choices=[v * 32 fo
 frames.add_argument("--batch-size", type=int, default=8)
 frames.set_defaults(main=sfi.tools.frames.main)
 
-stream = subcmd.add_parser("stream-index", help="builds an index in streaming mode", formatter_class=Fmt)
-stream.add_argument("--index", type=Path, required=True, help="file to save index to")
-stream.add_argument("--frames", type=Path, required=True, help="directory to load image frames from")
-stream.add_argument("--num-train", type=int, required=True, help="number of samples to train on")
-stream.add_argument("--image-size", type=int, default=14 * 32, choices=[v * 32 for v in range(1, 15)])
-stream.add_argument("--batch-size", type=int, default=64)
-stream.add_argument("--num-workers", type=int, default=0)
-stream.set_defaults(main=sfi.tools.stream.main)
-
 feature = subcmd.add_parser("extract-features", help="Extract features for image(s), Use --batch=1 \
                             for computing features on original resolution", formatter_class=Fmt)
 feature.add_argument("--images", type=Path, required=True, help="Path to image(s)")
 feature.add_argument("--batch", type=int, default=32, help="Batch size for images")
 feature.add_argument("--features", type=Path, required=True, help="Path to features")
 feature.add_argument("--image-size", type=int, default=14 * 32, choices=[v * 32 for v in range(1, 15)],
-                     help='Image size before feature extraction')
+                     help='Image  size before feature extraction')
 feature.set_defaults(main=sfi.tools.feature.main)
+
+index = subcmd.add_parser("build-index", help="builds a faiss index", formatter_class=Fmt)
+index.add_argument("--index", type=Path, required=True, help="file to save index to")
+index.add_argument("--batch_size", type=int, default=32, help="Batch size for features")
+index.add_argument("--features", type=Path, required=True, help="directory to load features from")
+index.add_argument("--num-train", type=int, required=True, help="number of samples to train on")
+index.add_argument("--num-workers", type=int, default=0)
+index.set_defaults(main=sfi.tools.index.main)
 
 feature3d = subcmd.add_parser("save-feature3d", help="saves features for videos", formatter_class=Fmt)
 feature3d.add_argument("--video", type=Path, required=True, help="path to video")
