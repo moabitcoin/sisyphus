@@ -17,11 +17,17 @@ Scene similarity for weak object discovery & classification. Labelling images fo
 Create a self-contained reproducible development environment
 
 ```
-    make install
+    # CPU
+    make install dockerfile=Dockerfile.cpu dockerimage=moabitcoin/sfi-cpu
+    # GPU
+    make install dockerfile=Dockerfile.gpu dockerimage=moabitcoin/sfi-gpu
 ```
 Get into the development environment
 ```
-    make run
+    # CPU
+    make run dockerimage=dockerimage=moabitcoin/sfi-cpu
+    # GPU
+    make run dockerimage=dockerimage=moabitcoin/sfi-gpu runtime=nvidia
 ```
 The Python source code directory is mounted into the container: if you modify it on the host it will get modified in the container, so you don't need to rebuild the image. To make data visible in the container set the datadir env var, e.g. to make your `/tmp` directory show up in `/data` inside the container run
 ```
@@ -56,11 +62,9 @@ All tools can be invoked via
 ### :rocket: Feature extraction
 
 ```
-  ./bin/sfi save-feature --help
+  ./bin/sfi extract-features --help
 ```
-
-Extracts high level feature maps for all image frames from a trained convolutional neural net. (ResNet-50)
-Saves `.npy` files with the extracted feature maps in parallel to all image frames. We recommend running this step on GPUs.
+Extracts high level feature [MAC]() maps for all image frames from a pre-trained convolutional neural net. (ResNet-50 + ILSVRC2012). Saves the features in individual `.npy` files with the extracted feature maps in parallel to all image frames. We recommend running this step on GPUs.
 
 
 ### :european_post_office: Building index

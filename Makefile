@@ -1,5 +1,6 @@
-dockerimage ?= moabitcoin/sfi
+dockerimage ?= moabitcoin/sfi-cpu
 dockerfile ?= Dockerfile.cpu
+runtime ?=
 srcdir ?= $(shell pwd)
 datadir ?= $(shell pwd)
 
@@ -16,7 +17,7 @@ u: update
 
 
 run:
-	@docker run -it --rm --ipc="host" --network="host" -p 5000:5000 -v $(srcdir)/sfi:/usr/src/app/sfi -v $(datadir):/data --entrypoint=/bin/bash $(dockerimage)
+	@docker run --runtime=$(runtime) -it --rm --ipc="host" --network="host" -p 5000:5000 -v $(srcdir)/sfi:/usr/src/app/sfi -v $(datadir):/data --entrypoint=/bin/bash $(dockerimage)
 
 r: run
 

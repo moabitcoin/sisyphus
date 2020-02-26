@@ -1,23 +1,26 @@
+import tqdm
 from torch.utils.data import DataLoader
 
 from einops import reduce
+from pathlib import Path
 
-from sfi.datasets import ImageSingleton
+from sfi.datasets import ImageDirectory
 from sfi.features import FeatureExtractor
 from sfi.io import ArrayIO
 
 
 def main(args):
-    extract = FeatureExtractor(image_size=args.image_size)
 
-    # We use this tool to compute query features on images of arbitrary sizes.
-    # That's why we can not batch images and have to feed them one by one.
+    # Support features extraction without image resizing
+    image_size = None if args.batch == 1 else args.image_size
+    extract = FeatureExtractor(image_size=image_size)
 
-    dataset = ImageSingleton(root=args.frame, transform=extract.transform)
-    loader = DataLoader(dataset, batch_size=1, num_workers=0)
+    dataset = ImageDirectory(root=args.images, transform=extract.transform)
+    loader = DataLoader(dataset, batch_size=args.batch, num_workers=16)
 
-    for images, paths in loader:
-        assert images.size(0) == 1, "image batch size of one for required"
+    for images, paths in tqdm.tqdm(loader, desc='images', unit="batch", ascii=True):
+
+        paths = map(Path, paths)
 
         n, c, h, w = images.size(0), 2048, images.size(2), images.size(3)
 
@@ -29,4 +32,6 @@ def main(args):
         features = reduce(features, "n (h w) c -> n c", "max", n=n, h=h, w=w, c=c)
         features = features.data.cpu().numpy()
 
-        ArrayIO.save(args.feature, features[0])
+        filenames = [args.features.joinpath(p.stem + '.npy') for p in paths]
+
+        _ = [ArrayIO.save(a, b) for a, b in zip(filenames, features)]

@@ -36,10 +36,13 @@ stream.add_argument("--batch-size", type=int, default=64)
 stream.add_argument("--num-workers", type=int, default=0)
 stream.set_defaults(main=sfi.tools.stream.main)
 
-feature = subcmd.add_parser("save-feature", help="saves features for frames", formatter_class=Fmt)
-feature.add_argument("--frame", type=Path, required=True, help="path to image frame")
-feature.add_argument("--feature", type=Path, required=True, help="path to save features to")
-feature.add_argument("--image-size", type=int, default=14 * 32, choices=[v * 32 for v in range(1, 15)])
+feature = subcmd.add_parser("extract-features", help="Extract features for image(s), Use --batch=1 \
+                            for computing features on original resolution", formatter_class=Fmt)
+feature.add_argument("--images", type=Path, required=True, help="Path to image(s)")
+feature.add_argument("--batch", type=int, default=32, help="Batch size for images")
+feature.add_argument("--features", type=Path, required=True, help="Path to features")
+feature.add_argument("--image-size", type=int, default=14 * 32, choices=[v * 32 for v in range(1, 15)],
+                     help='Image size before feature extraction')
 feature.set_defaults(main=sfi.tools.feature.main)
 
 feature3d = subcmd.add_parser("save-feature3d", help="saves features for videos", formatter_class=Fmt)

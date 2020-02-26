@@ -11,7 +11,7 @@ from sfi.transforms import ToImageMode, PadToMultiple
 
 
 class FeatureExtractor:
-    def __init__(self, image_size):
+    def __init__(self, image_size=None):
         device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
         if torch.cuda.is_available():
@@ -44,13 +44,16 @@ class FeatureExtractor:
         # ImageNet statistics (because we use pre-trained model)
         mean, std = [0.485, 0.456, 0.406], [0.229, 0.224, 0.225]
 
-        return Compose([
-            ToImageMode("RGB"),
-            Resize(self.image_size),
-            # resnet5 downsamples x2 five times
-            PadToMultiple(32, fill=0),
-            ToTensor(),
-            Normalize(mean=mean, std=std)])
+        transforms = [ToImageMode("RGB")]
+        if self.image_size:
+          transforms.append(Resize(self.image_size))
+
+        # We zero pad (PadToMultiple) since resnet5 downsamples x2 five times
+
+        transforms += [PadToMultiple(32, fill=0),
+                       ToTensor(), Normalize(mean=mean, std=std)]
+
+        return Compose(transforms)
 
     # batch of NCHW image tensors to batch of NHWC feature tensors
     def __call__(self, images):
