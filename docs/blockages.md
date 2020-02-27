@@ -19,8 +19,10 @@ In our second iteration we work with videos directly; we
 
 See our companion project for [video summarisation](https://github.com/moabitcoin/Adversarial-video-summarization-pytorch). Following the work in [arxiv.org/abs/1502.04681](https://arxiv.org/abs/1502.04681) we train a sequence model based auto-encoder for unsupervised video sequence vectors for indexing & search.
 
-### Query examples
-Since we didn't have examples of blockages  / construction sites for Berlin and elsewhere. We sourced few construction samples from [mapillary](https://www.mapillary.com/app/?lat=52.50715057361111&lng=13.330102460277772&z=17&pKey=RT1cFReHJwMS8RqWz7_qFQ) and used them to query our index. Sample retrieved results are below. We use [query expansion](https://en.wikipedia.org/wiki/Query_expansion) to further improve our retrieval results.
+### Querying index
+Since we didn't have examples of blockages  / construction sites for Berlin and elsewhere. We sourced few construction samples from [mapillary](https://www.mapillary.com/app/?lat=52.50715057361111&lng=13.330102460277772&z=17&pKey=RT1cFReHJwMS8RqWz7_qFQ) and used them to query our index. Sample retrieved results are below. We use [query expansion](https://en.wikipedia.org/wiki/Query_expansion) to further improve our retrieval results. Below are some of the retrieved results from our corpus.
+
+Retrieved results
 
 <table><tr><td>
   <img src="https://github.com/moabitcoin/sisyphus/blob/master/assets/000000.jpg" width="960">
@@ -29,8 +31,8 @@ Since we didn't have examples of blockages  / construction sites for Berlin and 
   <img src="https://github.com/moabitcoin/sisyphus/blob/master/assets/000001.jpg" width="960">
 </td></tr></table>
 
-### Results
-Example retrieved results
+### Classifier results
+Blockage detection results after training the last linear layer resnet50 model.
 
 <table><tr><td>
   <img src="https://github.com/moabitcoin/sisyphus/blob/master/assets/results-on-map.gif" width="960">
