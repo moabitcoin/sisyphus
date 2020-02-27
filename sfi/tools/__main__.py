@@ -19,7 +19,7 @@ subcmd.required = True
 
 Fmt = argparse.ArgumentDefaultsHelpFormatter
 
-frames = subcmd.add_parser("frames-extract", help="Extract key frames for video using intra frame similarity", formatter_class=Fmt)
+frames = subcmd.add_parser("frames-extract", help="Extract video key frames w/intra frame similarity", formatter_class=Fmt)
 frames.add_argument("--video", type=Path, required=True, help="file load video from")
 frames.add_argument("--frames", type=Path, required=True, help="directory to save key frames to")
 frames.add_argument("--similarity", type=float, default=0.95, help="similarity key frame threshold")
@@ -28,8 +28,7 @@ frames.add_argument("--image-size", type=int, default=7 * 32, choices=[v * 32 fo
 frames.add_argument("--batch-size", type=int, default=8)
 frames.set_defaults(main=sfi.tools.frames.main)
 
-feature = subcmd.add_parser("features-extract", help="Extract features for image(s), Use --batch=1 \
-                            for computing features on original resolution", formatter_class=Fmt)
+feature = subcmd.add_parser("feature-extract", help="Extract image features w/ pre-trained resnet50", formatter_class=Fmt)
 feature.add_argument("--images", type=Path, required=True, help="Path to image(s)")
 feature.add_argument("--batch", type=int, default=32, help="Batch size for images")
 feature.add_argument("--features", type=Path, required=True, help="Path to features")
@@ -66,7 +65,7 @@ client.add_argument("--query", type=Path, required=True, help="feature file to q
 client.add_argument("--num-results", type=int, default=10, help="number of similar frames to query for")
 client.set_defaults(main=sfi.tools.client.main)
 
-train = subcmd.add_parser("model-train", help="Trains a classifier model with a resnet50 backbone", formatter_class=Fmt)
+train = subcmd.add_parser("model-train", help="Trains a linear model with a resnet50 backbone", formatter_class=Fmt)
 train.add_argument("--model", type=Path, required=True, help="file to save trained model to")
 train.add_argument("--resume-from", type=Path, help="file to load trained model from")
 train.add_argument("--dataset", type=Path, required=True, help="directory to load dataset from")
