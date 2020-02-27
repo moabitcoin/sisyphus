@@ -5,11 +5,12 @@ Scene similarity for weak object discovery & classification. Labelling images fo
 # Table of Contents
 * [Installation](#computer-installation)
 * [Sample usage](#tada-usage)
-  - [Features Extraction](#rocket-feature-extraction)
+  - [Video / keyframes](#camera-frames-vs-video_camera-videos)
+  - [Features extraction](#rocket-feature-extraction)
   - [Building faiss index](#european_post_office-building-index)
   - [Loading faiss index](#vhs-load-index)
   - [Querying faiss index](#crystal_ball-query-index)
-* [Video to keyframes](#camera-frames-vs-video_camera-videos)
+* [Model training](#train-build-classier)
 * [Example: Traffic Blockages](./docs/blockages.md)
 
 ## :computer: Installation
@@ -54,9 +55,30 @@ commands:
     build-index      Builds a faiss index
     serve-index      Starts up the index http server
     query-index      Queries the index server for nearest neighbour
-    model-train      Trains a classifier model with a resnet50 backbone
-    model-infer      Runs inference with a classifier model
-    model-export     Export a classifier model to onnx
+    model-train      Trains a classification model with a resnet50 backbone
+    model-infer      Runs inference with a classification model
+    model-export     Export a classification model to onnx
+```
+
+### :camera: Frames vs. :video_camera: videos
+
+Sisyphus works with images or videos. For image only corpus you can skip this step. For videos one option (recommended) is to extract key frames. For working directly with videos(s) pleas use [Video feature extractor](#telescope-feature-extraction-video) and skip step.
+
+Keyframe extraction can be either of the following two options. This option removed frame(s) with little to no motion and vastly reduced corpus size and duplicates in retrieval results.
+
+#### FFMPEG keyframes
+Keyframe extraction using `ffmpeg`. You can reconstruct video back from keyframes for sanity check.
+```
+  # Video to keyframes
+  ./scripts/video-to-key-frames /path/to/video /tmp/frames/
+  # Keyframes to video
+  ./scripts/key-frames-to-video /tmp/result/ nearest.mp4
+```
+
+#### Image features
+We also included an Experimental keyframe extractor built using intra-frame feature similarity (Slow).
+```
+  ./bin/sfi frames-extract --help
 ```
 
 ### :rocket: Feature extraction
@@ -65,6 +87,13 @@ commands:
   ./bin/sfi feature-extract --help
 ```
 Extracts high level [MAC](https://arxiv.org/pdf/1511.05879.pdf) feature maps for all image frames from a pre-trained convolutional neural net(ResNet-50 + ILSVRC2012). Save the features in individual `.npy` files with the extracted feature maps in parallel to all image frames. We recommend running this step on GPUs.
+
+### :telescope: Feature extraction (Video)
+If you prefer to work directly with video(s), please use [3D video classification](https://github.com/moabitcoin/ig65m-pytorch) model for feature extraction. Follow the instruction [here](https://github.com/moabitcoin/ig65m-pytorch#tools). 3D video classification feature extraction tools within Sisyphus as Experimental.
+
+```
+  ./bin/sfi feature-extract-vid --help
+```
 
 ### :european_post_office: Building index
 ```
@@ -86,15 +115,24 @@ Responds to queries by searching the index, aggregating results, and re-ranking 
 Sends nearest neighbour requests against the query server and reports results to the user.
 The query and results are based on the `.npy` feature maps on which the index was build. The mapping from `.npy` files and images is saved in <index_file>.json.
 
-### :camera: Frames vs. :video_camera: videos
+### :train: Build Classier
+The last step would provide a quasi clean dataset which would need manual cleaning to be ready for training. Once you have cleaned the dataset you can run the following and training a classier. The weakly supervised model can run prediction on your image dataset. The `--dataset` option expects training/validation samples for each class partitioned under `path/to/dataset/`. F.ex
 
-Sisyphus works with images; for videos you should extract key frames first
-
 ```
-  ./scripts/video-to-key-frames /path/to/video /tmp/frames/
+tree -d 2 /data/experiments/blockages/construction
+├── train
+│   ├── background
+│   └── construction
+└── val
+    ├── background
+    └── construction
 ```
-The semantic frame index query can return key frame images; for inspection and sharing you should create a video
+Trainig/Exporting/Inference tools
 ```
-  ./scripts/key-frames-to-video /tmp/result/ nearest.mp4
+  # training
+  ./bin/sfi model-train --help
+  # inference
+  ./bin/sfi model-infer --help
+  # export
+  ./bin/sfi model-export --help
 ```
-For indexing and querying video sequences directly see our companion project for [unsupervised video summarisation](https://github.com/moabitcoin/Adversarial-video-summarization-pytorch). Another option would be to use `feature-extract-vid` (Disclaimer : Experimental)
