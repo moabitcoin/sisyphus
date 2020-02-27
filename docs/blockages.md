@@ -23,48 +23,21 @@ See our companion project for [video summarisation](https://github.com/moabitcoi
 Since we didn't have examples of blockages  / construction sites for Berlin and elsewhere. We sourced few construction samples from [mapillary](https://www.mapillary.com/app/?lat=52.50715057361111&lng=13.330102460277772&z=17&pKey=RT1cFReHJwMS8RqWz7_qFQ) and used them to query our index. Sample retrieved results are below. We use [query expansion](https://en.wikipedia.org/wiki/Query_expansion) to further improve our retrieval results.
 
 <table><tr><td>
-  <img src="" width="960">
+  <img src="https://github.com/moabitcoin/sisyphus/blob/master/assets/CHofY9R1R3qRm0%2BbfOAp7g_thumb_2f8d.jpg" width="960">
 </td></tr></table>
 <table><tr><td>
-  <img src="" width="960">
+  <img src="https://github.com/moabitcoin/sisyphus/blob/master/assets/p8bvaedCRQekwQmiJ5btqA_thumb_2f8c.jpg" width="960">
 </td></tr></table>
 <table><tr><td>
-  <img src="" width="960">
+  <img src="https://github.com/moabitcoin/sisyphus/blob/master/assets/sgaNwhkfQ7WnkHnbX0byTA_thumb_2f97.jpg" width="960">
 </td></tr></table>
-<table><tr><td>
-  <img src="" width="960">
-</td></tr></table>
-<table><tr><td>
-  <img src="" width="960">
-</td></tr></table>
-<table><tr><td>
-  <img src="" width="960">
-</td></tr></table>
-
 
 ### Results
-
 Example retrieved results
 
 <table><tr><td>
   <img src="" width="960">
 </td></tr></table>
-<table><tr><td>
-  <img src="" width="960">
-</td></tr></table>
-<table><tr><td>
-  <img src="" width="960">
-</td></tr></table>
-<table><tr><td>
-  <img src="" width="960">
-</td></tr></table>
-<table><tr><td>
-  <img src="" width="960">
-</td></tr></table>
-<table><tr><td>
-  <img src="" width="960">
-</td></tr></table>
-
 
 ### :bookmark: References
 
