@@ -58,7 +58,7 @@ server.add_argument("--num-probes", type=int, default=1, help="number of cells t
 server.add_argument("--features-size", type=int, default=1, choices=range(1, 15))
 server.set_defaults(main=sfi.tools.server.main)
 
-client = subcmd.add_parser("query-index", help="Queries the index server for nearest neighbor", formatter_class=Fmt)
+client = subcmd.add_parser("query-index", help="Queries the index server for nearest neighbour", formatter_class=Fmt)
 client.add_argument("--host", type=str, default="127.0.0.1")
 client.add_argument("--port", type=int, default=5000)
 client.add_argument("--query", type=Path, required=True, help="feature file to query the index with")

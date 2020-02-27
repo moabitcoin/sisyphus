@@ -43,52 +43,58 @@ All tools can be invoked via
 usage: sficmd [-h]  ...
 
 optional arguments:
-  -h, --help      show this help message and exit
+  -h, --help         show this help message and exit
 
 commands:
 
-    save-frames   saves key frames for video
-    stream-index  builds an index in streaming mode
-    save-feature  saves features for frames
-    save-feature3d
-                  saves features for videos
-    query-server  starts up the index query http server
-    query-client  queries the query server for similar features
-    model-train   trains a classifier model
-    model-infer   runs inference with a classifier model
-    model-export  export a classifier model to onnx
+    frames-extract   Extract video key frames w/intra frame similarity
+    feature-extract  Extract image features w/ pre-trained resnet50
+    feature-extract-vid
+                     Extract features from videos wth 2(D+1) video model
+    build-index      Builds a faiss index
+    serve-index      Starts up the index http server
+    query-index      Queries the index server for nearest neighbour
+    model-train      Trains a classifier model with a resnet50 backbone
+    model-infer      Runs inference with a classifier model
+    model-export     Export a classifier model to onnx
 ```
 
 ### :rocket: Feature extraction
 
 ```
-  ./bin/sfi extract-features --help
+  ./bin/sfi feature-extract --help
 ```
 Extracts high level [MAC](https://arxiv.org/pdf/1511.05879.pdf) feature maps for all image frames from a pre-trained convolutional neural net(ResNet-50 + ILSVRC2012). Save the features in individual `.npy` files with the extracted feature maps in parallel to all image frames. We recommend running this step on GPUs.
 
 ### :european_post_office: Building index
-
+```
+  ./bin/sfi index-build --help
+```
 Builds an index from the `.npy` feature maps for fast and efficient approximate nearest neighbour queries based on L2 distance. The `quantizer` for the index needs to get trained on a small subset of the feature maps to approximate the dataset's centroids. Depending on the feature map's spatial resolution (pooled vs. unpooled) we build and save multiple indices (one per `depthwise` feature map axis).
 
 ### :vhs: Load index
-
+```
+  ./bin/sfi index-serve --help
+```
 Loads up the index (slow) and keeps it in memory to handle nearest neighbour queries (fast).
 Responds to queries by searching the index, aggregating results, and re-ranking them.
 
 ### :crystal_ball: Query index
-
+```
+  ./bin/sfi index-query --help
+```
 Sends nearest neighbour requests against the query server and reports results to the user.
-The query and results are based on the `.npy` feature maps.
+The query and results are based on the `.npy` feature maps on which the index was build. The mapping from `.npy` files and images is saved in <index_file>.json.
 
 ### :camera: Frames vs. :video_camera: videos
 
-The semantic frame index can work with image frames; for videos you should extract key frames first
+Sisyphus works with images; for videos you should extract key frames first
 
 ```
-    ./scripts/video-to-key-frames /path/to/video /tmp/frames/
+  ./scripts/video-to-key-frames /path/to/video /tmp/frames/
 ```
 The semantic frame index query can return key frame images; for inspection and sharing you should create a video
 ```
-    ./scripts/key-frames-to-video /tmp/result/ nearest.mp4
+  ./scripts/key-frames-to-video /tmp/result/ nearest.mp4
 ```
-For indexing and querying video sequences directly see our companion project for [video summarization](https://github.com/moabitcoin/Adversarial-video-summarization-pytorch).
+For indexing and querying video sequences directly see our companion project for [unsupervised video summarisation](https://github.com/moabitcoin/Adversarial-video-summarization-pytorch). Another option would be to use `feature-extract-vid` (Disclaimer : Experimental)
