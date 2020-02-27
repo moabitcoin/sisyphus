@@ -7,7 +7,7 @@ In this project we aimed at building a construction/blockages classier with mini
 
 In our first iteration we
 - [Re-sample the videos](https://github.com/moabitcoin/sisyphus/blob/master/scripts/video-to-key-frames) and extract key frames
-- [Extract])(https://github.com/moabitcoin/sisyphus#rocket-feature-extraction) [MAC features](https://arxiv.org/pdf/1511.05879.pdf) for all key frames with a pre-trained ResNet50 model
+- [Extract](https://github.com/moabitcoin/sisyphus#rocket-feature-extraction) [MAC features](https://arxiv.org/pdf/1511.05879.pdf) for all key frames with a pre-trained ResNet50 model
 - Use the MAC features to [train/build](https://github.com/moabitcoin/sisyphus#vhs-load-index) an index with [FAISS](https://www.github.com/facebookresearch/faiss)
 - [Query the index](https://github.com/moabitcoin/sisyphus#crystal_ball-query-index) for semantically similar scenarios sorted by approximate L2 distance
 
