@@ -49,7 +49,7 @@ def query():
 
 
 def main(args):
-    print("Loading index from disk", file=sys.stderr)
+    print("Loading index from disk {}".format(args.index), file=sys.stderr)
 
     global index
     index = Index(path=args.index, metadata=args.index.with_suffix(".json"),
