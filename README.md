@@ -113,7 +113,7 @@ Responds to queries by searching the index, aggregating results, and re-ranking 
 Sends nearest neighbour requests against the query server and reports results to the user.
 The query and results are based on the `.npy` feature maps on which the index was build. The mapping from `.npy` files and images is saved in <index_file>.json.
 
-### :train: Build classifier
+### :bullettrain_side: Build classifier
 The last step would provide a _quasi_ clean dataset which would need manual cleaning to be ready for training. Once you have cleaned the dataset you can run the following and training a classier. The weakly supervised model can run prediction on your image dataset. The `--dataset` option expects training/validation samples for each class partitioned under `path/to/dataset/`. F.ex
 
 ```
