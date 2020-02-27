@@ -28,9 +28,6 @@ Since we didn't have examples of blockages  / construction sites for Berlin and 
 <table><tr><td>
   <img src="https://github.com/moabitcoin/sisyphus/blob/master/assets/p8bvaedCRQekwQmiJ5btqA_thumb_2f8c.jpg" width="960">
 </td></tr></table>
-<table><tr><td>
-  <img src="https://github.com/moabitcoin/sisyphus/blob/master/assets/sgaNwhkfQ7WnkHnbX0byTA_thumb_2f97.jpg" width="960">
-</td></tr></table>
 
 ### Results
 Example retrieved results
