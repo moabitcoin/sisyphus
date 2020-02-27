@@ -62,9 +62,7 @@ commands:
 
 ### :camera: Frames vs. :video_camera: videos
 
-Sisyphus works with images or videos. For image only corpus you can skip this step. For videos one option (recommended) is to extract key frames. For working directly with videos(s) pleas use [Video feature extractor](#telescope-feature-extraction-video) and skip step.
-
-Keyframe extraction can be either of the following two options. This option removed frame(s) with little to no motion and vastly reduced corpus size and duplicates in retrieval results.
+Sisyphus works with images or videos. For image only corpus you can skip this step. For videos one option (recommended) is to extract key frames. For working directly with videos(s) pleas use [Video feature extractor](#telescope-feature-extraction-video) and skip step. Keyframe extraction can be either of the following two options. This option removed frame(s) with little to no motion and vastly reduced corpus size and duplicates in retrieval results.
 
 #### FFMPEG keyframes
 Keyframe extraction using `ffmpeg`. You can reconstruct video back from keyframes for sanity check.
