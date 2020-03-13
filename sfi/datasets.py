@@ -2,7 +2,7 @@ from PIL import Image
 
 from torch.utils.data import Dataset
 
-from sfi.utils import files
+from sfi.utils import files, fileslist
 from sfi.io import ArrayIO
 
 # PyTorch can not transport a Path object through data loaders.
@@ -54,6 +54,8 @@ class ImageSingleton(Dataset):
 class FeatureDirectory(Dataset):
     def __init__(self, root):
         super().__init__()
+
+        parser = files if root.is_dir() else fileslist
 
         self.paths = files(root)
 
