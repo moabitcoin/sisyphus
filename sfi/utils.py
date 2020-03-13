@@ -15,7 +15,7 @@ def files(path):
 def fileslist(path):
 
     with path.open() as pfile:
-      feature_list = pfile.readlines()
+      feature_list = pfile.read().splitlines()
 
     return sorted(feature_list)
 

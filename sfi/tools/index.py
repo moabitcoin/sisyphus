@@ -34,7 +34,7 @@ def main(args):
     train_loader = DataLoader(train_dataset, batch_size=args.batch_size, num_workers=args.num_workers)
     index_loader = DataLoader(index_dataset, batch_size=args.batch_size, num_workers=args.num_workers)
 
-    N, C = len(train_dataset), 2048
+    N, C = len(train_dataset), args.dim
 
     train_features = np.empty(shape=(N, C), dtype=np.float32)
 
@@ -58,8 +58,7 @@ def main(args):
         index.add(features)
 
         for path in paths:
-            fname = Path(path).name
-            metadata.append(fname)
+            metadata.append(path)
 
     print('Saving index file and metadata')
     IndexIO.save(args.index.with_suffix(".idx"), index)

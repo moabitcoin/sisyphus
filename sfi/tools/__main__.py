@@ -44,6 +44,7 @@ feature3d.set_defaults(main=sfi.tools.feature3d.main)
 
 index = subcmd.add_parser("build-index", help="Builds a faiss index", formatter_class=Fmt)
 index.add_argument("--index", type=Path, required=True, help="file to save index to")
+index.add_argument("--dim", type=int, required=True, default=2048, help="Dimensionality of features")
 index.add_argument("--batch_size", type=int, default=32, help="Batch size for features")
 index.add_argument("--features", type=Path, required=True, help="directory to load features from/filelist of features")
 index.add_argument("--num-train", type=int, required=True, help="number of samples to train on")
