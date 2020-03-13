@@ -57,7 +57,7 @@ class FeatureDirectory(Dataset):
 
         parser = files if root.is_dir() else fileslist
 
-        self.paths = files(root)
+        self.paths = parser(root)
 
     def __len__(self):
         return len(self.paths)
