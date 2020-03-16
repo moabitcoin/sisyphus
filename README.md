@@ -27,7 +27,7 @@ make run dockerimage=dockerimage=moabitcoin/sfi-cpu
 Example for running on GPUs via [nvidia-docker](https://github.com/NVIDIA/nvidia-docker):
 ```
 make install dockerfile=Dockerfile.gpu dockerimage=moabitcoin/sfi-gpu
-make run dockerimage=dockerimage=moabitcoin/sfi-gpu runtime=nvidia
+make run dockerimage=moabitcoin/sfi-gpu runtime=nvidia
 ```
 
 The Python source code directory is mounted into the container: if you modify it on the host it will get modified in the container, so you don't need to rebuild the image. To make data visible in the container set the datadir env var, e.g. to make your `/tmp` directory show up in `/data` inside the container run
